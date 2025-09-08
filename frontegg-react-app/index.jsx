@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { FronteggProvider } from '@frontegg/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -15,17 +16,20 @@ const authOptions = {
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <FronteggProvider
-    contextOptions={contextOptions}
-    hostedLoginBox={true}
-    authOptions={authOptions}
-  >
-    <BrowserRouter>
-      <Routes>
-        <Route path="/oauth/callback" element={<App />} />
-        <Route path="/*" element={<App />} />
-      </Routes>
-    </BrowserRouter>
-  </FronteggProvider>
+  <React.StrictMode>
+    <FronteggProvider
+      contextOptions={contextOptions}
+      hostedLoginBox={true}
+      authOptions={authOptions}
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route path="/oauth/callback" element={<App />} />
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    </FronteggProvider>
+  </React.StrictMode>
 );
