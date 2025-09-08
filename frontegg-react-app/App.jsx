@@ -1,5 +1,6 @@
+// App.jsx
 import React, { useEffect } from 'react';
-import { useAuth, useLoginWithRedirect, ContextHolder, AdminPortal } from '@frontegg/react';
+import { useAuth, useLoginWithRedirect, AdminPortal } from '@frontegg/react';
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -11,35 +12,14 @@ function App() {
     }
   }, [isAuthenticated, loginWithRedirect]);
 
-  const logout = () => {
-    const baseUrl = ContextHolder.getContext().baseUrl;
-    window.location.href = `${baseUrl}/oauth/logout?post_logout_redirect_uri=${window.location.href}`;
-  };
-
-  const openSettings = () => {
-    AdminPortal.show();
-  };
+  if (!isAuthenticated) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="app">
-      {isAuthenticated ? (
-        <div className="card">
-          <img className="avatar" src={user?.profilePictureUrl} alt={user?.name || 'User'} />
-          <h2 className="title">Logged in as: {user?.name}</h2>
-          <div className="row">
-            <button onClick={() => alert(user?.accessToken || 'No access token yet')}>
-              What is my access token?
-            </button>
-            <button onClick={openSettings}>Settings</button>
-            <button onClick={logout}>Logout</button>
-          </div>
-        </div>
-      ) : (
-        <div className="card">
-          <h2 className="title">Welcome</h2>
-          <button onClick={loginWithRedirect}>Click me to login</button>
-        </div>
-      )}
+    <div>
+      <h1>Welcome {user?.name}</h1>
+      <button onClick={() => AdminPortal.show()}>Open Admin Portal</button>
     </div>
   );
 }
